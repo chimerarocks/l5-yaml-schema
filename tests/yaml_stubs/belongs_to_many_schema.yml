@@ -1,0 +1,6 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsToMany:
+     entity: Project

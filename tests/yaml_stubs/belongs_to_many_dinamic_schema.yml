@@ -1,0 +1,10 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsToMany:
+    entity:
+      Family:
+        joining_table: tribes
+        own: tribe_name
+        inversed: family_name

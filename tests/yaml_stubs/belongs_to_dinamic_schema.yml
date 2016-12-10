@@ -1,0 +1,10 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsTo:
+    entity:
+      Family:
+        field: brother_name
+        references: name
+        table: tribes

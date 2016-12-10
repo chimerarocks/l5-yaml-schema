@@ -1,0 +1,11 @@
+User:
+  fields:
+    name:
+      type: string
+    age:
+      type: integer
+      default: 26
+      unsigned:
+    address:
+      type: string
+      length: 255

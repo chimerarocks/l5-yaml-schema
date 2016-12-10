@@ -1,0 +1,9 @@
+Family:
+  fields:
+    name:
+      type: string
+    address:
+      type: string
+      length: 255
+  hasMany:
+    entity: User

@@ -1,0 +1,6 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsTo:
+    entity: Family
