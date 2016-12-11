@@ -101,11 +101,14 @@ class ModelGenerator extends Generator
     public function getRelations()
     {
         $opt = $this->options['relations'];
-        if (is_string($opt)) {
+        if (empty($opt)) {
+            return '';
+        } else if (is_string($opt)) {
             $relations = $this->parseRelationsOption($opt);
-        } else if (is_array($opt)){
+        } else if (is_array($opt)) {
             $relations = $opt;
-        } 
+        }
+
         $result = '';
         foreach ($relations as $relation => $entities) {
             if ($this->isValidSingularType($relation)) {

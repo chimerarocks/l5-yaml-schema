@@ -59,10 +59,11 @@ class SchemaCommand extends Command
         }
 
         foreach ($migrations as $entity => $migration) {
+            $rel = isset($relations[$entity]['relations']) ? $relations[$entity]['relations'] : '';
             $this->call('make:repository', [
                 'name'        => $migration['name'],
                 '--fillable'  => $migration['options'],
-                '--relations'  => $relations[$entity]['relations'],
+                '--relations'  => $rel,
                 '--force'     => $this->option('force')
             ]);
         }
