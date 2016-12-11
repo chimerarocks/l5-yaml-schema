@@ -2,10 +2,10 @@
 namespace ChimeraRocks\YamlSchema\Commands;
 
 use ChimeraRocks\YamlSchema\Generators\ModelGenerator;
+use ChimeraRocks\YamlSchema\Generators\MigrationGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
-use Prettus\Repository\Generators\MigrationGenerator;
 use Prettus\Repository\Generators\RepositoryEloquentGenerator;
 use Prettus\Repository\Generators\RepositoryInterfaceGenerator;
 use Symfony\Component\Console\Input\InputArgument;
