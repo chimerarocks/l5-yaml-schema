@@ -5,6 +5,7 @@ namespace ChimeraRocks\YamlSchema\Generators;
 use Prettus\Repository\Generators\Generator;
 use Prettus\Repository\Generators\Migrations\NameParser;
 use ChimeraRocks\YamlSchema\Generators\SchemaParser;
+use Prettus\Repository\Generators\Stub;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
