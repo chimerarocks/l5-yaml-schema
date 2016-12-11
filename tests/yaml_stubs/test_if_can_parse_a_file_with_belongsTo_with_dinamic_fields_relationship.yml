@@ -8,3 +8,8 @@ User:
         field: brother_name
         references: name
         table: tribes
+
+Family:
+  fields:
+    name:
+      type: string

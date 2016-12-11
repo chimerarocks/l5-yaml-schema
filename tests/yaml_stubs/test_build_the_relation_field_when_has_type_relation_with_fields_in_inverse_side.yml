@@ -1,0 +1,11 @@
+Family:
+  fields:
+    address:
+      type: string
+  hasMany:
+    entity: User
+
+User:
+  fields:
+    name:
+      type: string

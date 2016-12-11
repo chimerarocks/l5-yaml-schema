@@ -1,0 +1,11 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsTo:
+    entity: Family
+
+Family:
+  fields:
+    name:
+      type: string

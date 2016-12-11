@@ -19,3 +19,13 @@ Family:
       length: 255
   hasMany:
     entity: User
+
+Car:
+  fields:
+    name:
+      type: string
+
+Job:
+  fields:
+    name:
+      type: string

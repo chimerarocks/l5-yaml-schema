@@ -1,0 +1,11 @@
+User:
+  fields:
+    name:
+      type: string
+  belongsToMany:
+     entity: Project
+
+Project:
+  fields:
+    name:
+      type: string

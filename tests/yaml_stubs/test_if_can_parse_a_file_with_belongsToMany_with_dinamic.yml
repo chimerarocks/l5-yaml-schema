@@ -8,3 +8,8 @@ User:
         joining_table: tribes
         own: tribe_name
         inversed: family_name
+
+Family:
+  fields:
+    name:
+      type: string

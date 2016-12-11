@@ -235,4 +235,19 @@ class ModelGeneratorTest extends AbstractTestCase
 
         $this->assertEquals($expected, $relations);
     }
+    
+    public function test_generate_a_schema_without_relations()
+    {
+        $migration = new ModelGenerator([
+            'name'   => 'Product',
+            'fields' => '',
+            'force'  => '',
+            'fillable' => 'name:string(\'name\'),price:decimal(\'price\',6,2)',
+            'relations' => ''
+        ]);
+
+        $relations = $migration->getRelations();
+
+        $this->assertEmpty($relations);
+    }
 }

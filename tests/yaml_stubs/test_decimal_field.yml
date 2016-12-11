@@ -1,0 +1,7 @@
+Budget:
+  fields:
+    name:
+      type: string
+    price:
+      type: decimal
+      length: '6,2'
