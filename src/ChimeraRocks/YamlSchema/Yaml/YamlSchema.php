@@ -1,6 +1,9 @@
 <?php
 namespace ChimeraRocks\YamlSchema\Yaml;
 
+use ChimeraRocks\YamlSchema\Exceptions\InversedEntityNotExistsException;
+use ChimeraRocks\YamlSchema\Yaml\YamlConstraints\YamlBelongsToRelationConstraint;
+use ChimeraRocks\YamlSchema\Yaml\YamlConstraints\YamlRelationConstraint;
 use Illuminate\Database\Eloquent\Collection;
 
 class YamlSchema
@@ -90,13 +93,26 @@ class YamlSchema
             $relations = $entity->getConstraints();
             $relationArr = [];
             foreach ($relations as $relation) {
+                $this->checkInversedEntityExists($entity, $relation);
+                $rel = $this->buildRelation($relation);
                 $options .= $relation->parse();
-                $rel = $relation->getValidDinamicFields();
-                $rel['entity'] = $relation->getEntity();
+
+
                 $type = $relation->getType();
                 $relationArr[$type][] = $rel;
             }
-            
+
+            if ($entity->getName() == 'User') {
+                $result = $this->getEntityWhichHasThis($entity);
+                if (!empty($result)) {
+                    $already = $this->thisRelationsHasBelongsToFieldToEntity($relations, $result);
+                    if (empty($already)) {
+                        $belongsTo = new YamlBelongsToRelationConstraint($result->getName());
+                        $options .= $belongsTo->parse();
+                    }
+                }
+            }
+
             $migration = [
                 "name" => $entity->getName(),
                 "options" => rtrim($options, ',')
@@ -111,5 +127,48 @@ class YamlSchema
                 $this->addRelation($entity->getName(), $relation);
             }
         }
+    }
+
+    public function checkInversedEntityExists($entity, $relation)
+    {
+        $hasInversedEntity = $this->getEntities()->first(function ($entity, $key) use ($relation) {
+            return $entity->getName() == $relation->getEntity();
+        });
+        if (empty($hasInversedEntity)) {
+            throw new InversedEntityNotExistsException($entity->getName(), $relation->getEntity());
+        }
+    }
+
+    public function buildRelation($relation)
+    {
+        $rel = $relation->getValidDinamicFields();
+        $rel['entity'] = $relation->getEntity();
+        return $rel;
+    }
+
+    public function getEntityWhichHasThis($entity)
+    {
+        $result = $this->getEntities()->first(function ($object, $key) use ($entity) {
+            return $object->getConstraints()->first(function ($constraint, $key) use ($entity) {
+                return in_array($constraint->getType(), $this->getHasFieldsThatNeedsInversedBelongsTo()) &&
+                $constraint->getEntity() == $entity->getName();
+            });
+        });
+        return $result;
+    }
+
+    public function thisRelationsHasBelongsToFieldToEntity($relations, $entity)
+    {
+        return $relations->first(function($object, $key) use ($entity) {
+            return $object->getEntity() == $entity->getName();
+        });
+    }
+
+    public function getHasFieldsThatNeedsInversedBelongsTo()
+    {
+        return [
+            YamlRelationConstraint::HAS_MANY,
+            YamlRelationConstraint::HAS_ONE
+        ];
     }
 }

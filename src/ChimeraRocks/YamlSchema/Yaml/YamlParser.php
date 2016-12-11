@@ -1,6 +1,7 @@
 <?php
 namespace ChimeraRocks\YamlSchema\Yaml;
 
+use ChimeraRocks\YamlSchema\Exceptions\InversedEntityNotExistsException;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\Yaml\Yaml;
 
