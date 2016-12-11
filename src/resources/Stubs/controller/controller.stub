@@ -36,8 +36,6 @@ class $CONTROLLER$Controller extends Controller
         return response()->json([
                 'data' => $$PLURAL$,
         ]);
-
-        return view('$PLURAL$.index', compact('$PLURAL$'));
     }
 
     /**

@@ -124,7 +124,7 @@ abstract class YamlRelationConstraint implements IYamlConstraint
             $field = $this->getField() ? $this->getField() : snake_case($entityName) . '_id';
             $table = $this->getTable() ? $this->getTable() : str_plural(snake_case($entityName));
             $references = $this->getReferences() ? $this->getReferences() : 'id';
-            return "$field:foreign('$field')->references('$references')->on('$table')";
+            return "$field:integer('$field')->unsigned()->foreign('$field')->references('$references')->on('$table')";
         }
     }
 

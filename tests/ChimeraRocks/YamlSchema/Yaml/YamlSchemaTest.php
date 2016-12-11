@@ -73,7 +73,7 @@ class YamlSchemaTest extends AbstractTestCase
     public function test_if_can_parse_a_file_with_belongsTo_relationship()
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file_with_belongsTo_relationship');
-        $expectedOptions = 'name:string(\'name\'),family_id:foreign(\'family_id\')->references(\'id\')->on(\'families\')';
+        $expectedOptions = 'name:string(\'name\'),family_id:integer(\'family_id\')->unsigned()->foreign(\'family_id\')->references(\'id\')->on(\'families\')';
 
         $expectedRelation = [
             'belongsTo' => [
@@ -94,7 +94,7 @@ class YamlSchemaTest extends AbstractTestCase
     public function test_if_can_parse_a_file_with_belongsTo_with_dinamic_fields_relationship()
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file_with_belongsTo_with_dinamic_fields_relationship');
-        $expectedOptions = 'name:string(\'name\'),brother_name:foreign(\'brother_name\')->references(\'name\')->on(\'tribes\')';
+        $expectedOptions = 'name:string(\'name\'),brother_name:integer(\'brother_name\')->unsigned()->foreign(\'brother_name\')->references(\'name\')->on(\'tribes\')';
 
         $expectedRelation = [
             'belongsTo' => [
@@ -196,7 +196,7 @@ class YamlSchemaTest extends AbstractTestCase
     public function test_if_can_parse_a_file_with_two_entities_and_relations_schema()
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file_with_two_entities_and_relations_schema');
-        $expectedUserOptions = 'name:string(\'name\'),address:string(\'address\',255),family_id:foreign(\'family_id\')->references(\'id\')->on(\'families\')';
+        $expectedUserOptions = 'name:string(\'name\'),address:string(\'address\',255),family_id:integer(\'family_id\')->unsigned()->foreign(\'family_id\')->references(\'id\')->on(\'families\')';
         $expectedUserRelation = [
             'hasOne' => [
                 [
@@ -247,7 +247,7 @@ class YamlSchemaTest extends AbstractTestCase
     public function test_build_the_relation_field_when_has_type_relation_with_fields_in_inverse_side()
     {
         $schema = $this->getBasicResult('test_build_the_relation_field_when_has_type_relation_with_fields_in_inverse_side');
-        $expectedUserOptions = 'name:string(\'name\'),family_id:foreign(\'family_id\')->references(\'id\')->on(\'families\')';
+        $expectedUserOptions = 'name:string(\'name\'),family_id:integer(\'family_id\')->unsigned()->foreign(\'family_id\')->references(\'id\')->on(\'families\')';
 
         $expectedFamilyOptions = 'address:string(\'address\')';
         $expectedFamilyRelation = [
@@ -288,11 +288,11 @@ class YamlSchemaTest extends AbstractTestCase
         }
         $schema->build();
 
-        $expectedUserOptions = 'name:string(\'name\'),address:string(\'address\',255),family_id:foreign(\'family_id\')->references(\'id\')->on(\'families\')';
+        $expectedUserOptions = 'name:string(\'name\'),address:string(\'address\',255),family_id:integer(\'family_id\')->unsigned()->foreign(\'family_id\')->references(\'id\')->on(\'families\')';
         $expectedUserRelation = ['hasOne' => [['entity' => 'Car'],['entity' => 'Job']],'belongsTo' => [['entity' => 'Family']]];
         $expectedFamilyOptions = 'name:string(\'name\'),address:string(\'address\',255)';
         $expectedFamilyRelation = ['hasMany' => [['entity' => 'User']]];
-        $expectedCarOptions = 'name:string(\'name\'),address:string(\'address\',255),user_id:foreign(\'user_id\')->references(\'id\')->on(\'users\')';
+        $expectedCarOptions = 'name:string(\'name\'),address:string(\'address\',255),user_id:integer(\'user_id\')->unsigned()->foreign(\'user_id\')->references(\'id\')->on(\'users\')';
         $expectedCarRelation = ['belongsTo' => [['entity' => 'User']]];
 
         $migrations = $schema->getMigrations();
