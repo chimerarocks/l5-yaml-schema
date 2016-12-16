@@ -11,6 +11,8 @@ class YamlField
 
     private $options;
 
+    private $constraints;
+
     /**
      * YamlField constructor.
      * @param $name
@@ -18,12 +20,13 @@ class YamlField
      * @param $length
      * @param $options
      */
-    public function __construct($name, $type, $length = null, $options = [])
+    public function __construct($name, $type, $length = null, $options = [], $constraints = [])
     {
         $this->name = $name;
         $this->type = $type;
         $this->length = $length;
         $this->options = $options;
+        $this->constraints = $constraints;
     }
 
     /**
@@ -90,6 +93,22 @@ class YamlField
         $this->length = $length;
     }
 
+    /**
+     * @return array
+     */
+    public function getConstraints()
+    {
+        return $this->constraints;
+    }
+
+    /**
+     * @param array $constraints
+     */
+    public function setConstraints($constraints)
+    {
+        $this->constraints = $constraints;
+    }
+
     public function parse()
     {
         $string = '';
@@ -98,8 +117,17 @@ class YamlField
         $length = $this->getLength();
         $string .= $name . ':';
         $string .= $this->createFieldBase($name, $type, $length);
+
         foreach ($this->getOptions() as $attribute => $value) {
             $string .= $this->addFieldOptions($attribute, $value);
+        }
+
+        if (is_array($this->getConstraints())) {
+            foreach ($this->getConstraints() as $option) {
+                $string .= $this->addConstraintField($option);
+            }
+        } else {
+            $string .= $this->addConstraintField($this->getConstraints());
         }
 
         return rtrim($string,',');
@@ -113,6 +141,11 @@ class YamlField
             $type .=  "('$name')";
         }
         return $type;
+    }
+
+    public function addConstraintField($option)
+    {
+        return '->' . $option . "()";
     }
 
     public function addFieldOptions($attribute, $value)

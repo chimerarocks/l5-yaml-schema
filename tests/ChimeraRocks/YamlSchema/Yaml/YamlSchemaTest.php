@@ -22,7 +22,7 @@ class YamlSchemaTest extends AbstractTestCase
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file');
         $migrations = $schema->getMigrations();
-        $expectedOptions = 'name:string(\'name\'),age:integer(\'age\')->default(\'26\')->unsigned(\'\'),address:string(\'address\',255)';
+        $expectedOptions = 'name:string(\'name\'),age:integer(\'age\')->default(\'26\')->unsigned(),address:string(\'address\',255)';
 
         $this->assertEquals($expectedOptions, $migrations['User']['options']);
         $this->assertEquals('User', $migrations['User']['name']);
@@ -95,7 +95,7 @@ class YamlSchemaTest extends AbstractTestCase
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file_with_belongsTo_with_dinamic_fields_relationship');
         $expectedOptions = 'name:string(\'name\'),brother_name:integer(\'brother_name\')->foreign(\'brother_name\')->references(\'name\')->on(\'tribes\')';
-
+        
         $expectedRelation = [
             'belongsTo' => [
                 [
@@ -140,6 +140,29 @@ class YamlSchemaTest extends AbstractTestCase
     {
         $schema = $this->getBasicResult('test_if_can_parse_a_file_with_belongsToMany_with_dinamic');
         $expectedOptions = 'name:string(\'name\')';
+        $expectedRelation = [
+            'belongsToMany' => [
+                [
+                    'entity' => 'Family',
+                    'joining_table' => 'tribes',
+                    'own' => 'tribe_name',
+                    'inversed' => 'family_name'
+                ]
+            ]
+        ];
+
+        $migrations = $schema->getMigrations();
+        $relations = $schema->getRelations();
+        $this->assertEquals($expectedOptions, $migrations['User']['options']);
+        $this->assertEquals('User', $migrations['User']['name']);
+        $this->assertEquals($expectedRelation, $relations['User']['relations']);
+        $this->assertEquals('User', $relations['User']['name']);
+    }
+
+    public function test_if_can_parse_a_file_with_belongsToMany_with_dinamic_and_many_fields()
+    {
+        $schema = $this->getBasicResult('test_if_can_parse_a_file_with_belongsToMany_with_dinamic_and_many_fields');
+        $expectedOptions = 'name:string(\'name\'),age:integer(\'age\'),cpf:string(\'cpf\')->unique()->nullable()';
         $expectedRelation = [
             'belongsToMany' => [
                 [

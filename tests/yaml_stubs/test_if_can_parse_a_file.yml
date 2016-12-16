@@ -5,7 +5,7 @@ User:
     age:
       type: integer
       default: 26
-      unsigned:
+      constraints: unsigned
     address:
       type: string
       length: 255

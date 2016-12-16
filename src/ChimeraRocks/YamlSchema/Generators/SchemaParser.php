@@ -86,7 +86,6 @@ class SchemaParser implements Arrayable
             $attributes = $this->getAttributes($column, $schemaArray);
             $parsed[$column] = $attributes;
         }
-
         return $parsed;
     }
 
@@ -101,7 +100,7 @@ class SchemaParser implements Arrayable
             return [];
         }
 
-        preg_match_all("/[a-zA-Z_]+:[a-zA-Z]+\\('[a-zA-Z_]+'(?:,[0-9]*)?\\)(?:->[a-zA-Z]+\\('[a-zA-Z_]+'\\))*/", $this->schema, $output_array);
+        preg_match_all("/[a-zA-Z_]+:[a-zA-Z]+\\('[a-zA-Z_]+'(?:,[0-9]*)?\\)(?:->[a-zA-Z]+\\((?:'[a-zA-Z_0-9]+')?\\))*/", $this->schema, $output_array);
         return $output_array[0];
     }
 

@@ -1,0 +1,18 @@
+User:
+  fields:
+    name: string
+    age: integer
+    cpf:
+      type: string
+      constraints: [unique, nullable]
+
+  belongsToMany:
+    entity:
+      Family:
+        joining_table: tribes
+        own: tribe_name
+        inversed: family_name
+
+Family:
+  fields:
+    name: string
